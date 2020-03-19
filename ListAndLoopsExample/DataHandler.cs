@@ -9,7 +9,8 @@ namespace ListAndLoopsExample
         
         public List<Coffee> coffees = new List<Coffee>();
         public List<Person> persons = new List<Person>();
-        public List<Company> companies = new List<Company>();
+        public List<Company> companies = new List<Company>();   
+
         
         
         public Person CreatePerson()
@@ -49,6 +50,48 @@ namespace ListAndLoopsExample
             Console.WriteLine("Syötä valittavan henkilön numero:");
             var selected = int.Parse(Console.ReadLine());
             return this.persons[selected-1];
+        }
+
+        public Company CreateCompany()
+        {
+            Console.WriteLine("anna yrityksen nimi");
+            string name = Console.ReadLine();
+            Console.WriteLine("anna yrityksen maa");
+            string country = Console.ReadLine();
+
+            Console.WriteLine("Valitse yhteyshenkilö listasta");
+            Person contactPerson = SelectPersonFromList();
+            
+            Company company = new Company(name, contactPerson, country);
+
+            return company;
+        }
+
+        public void AddCompanyToList()
+        {
+            var company = CreateCompany();
+            this.companies.Add(company);
+            Console.WriteLine("Yritys lisätty listaan.");
+        }
+
+        public void PrintCompanyList()
+        {
+            int i = 1;
+            foreach (Company company in this.companies)
+            {
+
+                Console.WriteLine($"{i}.\tNimi: {company.name} \tMaa: {company.country}");
+                Console.WriteLine($"\tYhteyshenkilö: {company.contactPerson.firstName} {company.contactPerson.lastName} \tSähköposti: {company.contactPerson.eMail} \tPuhelinnumero: {company.contactPerson.phoneNumber}");
+                i++;
+            }
+        }
+
+        public Company SelectCompanyFromList()
+        {
+            PrintCompanyList();
+            Console.WriteLine("syötä valittavan yrityksen numero:");
+            var selected = int.Parse(Console.ReadLine());
+            return this.companies[selected - 1];
         }
         //metodi luo persoonan
     }

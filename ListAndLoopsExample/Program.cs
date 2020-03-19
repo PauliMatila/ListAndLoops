@@ -12,20 +12,30 @@ namespace ListAndLoopsExample
             dh.AddPersonToList();
             dh.PrintPersonList();
             Console.ReadKey();
-
+           
             Console.Clear();
-            Console.WriteLine("Valitse henkilö");
-            var person = dh.SelectPersonFromList();
-            Console.WriteLine($"Valittu : {person.firstName} {person.lastName} {person.eMail}");
+            Person person = dh.SelectPersonFromList();
+            Console.WriteLine($"Valittu : {person.firstName} {person.lastName} {person.eMail} {person.phoneNumber}");
+            
+            Console.Clear();
+            
+            dh.AddCompanyToList();
+            dh.PrintCompanyList();
+            Console.ReadKey();
+            
+            Console.Clear();
+            Company company = dh.SelectCompanyFromList();
+            Console.WriteLine($"Valittu : {company.name}");
 
+            
             //var dh = new DataHandler();
             //var kahvi = dh.CreateCoffee();
             //dh.coffees.Add(kahvi);
 
             //var paketti = new Coffee("pressa", 3.4, Coffee.Roast.light, "joku");
             //Console.WriteLine($"enum:{(int)paketti.roast}");
-
-
+            
+            
             //var paketti1 = new Coffee("Presidentti");
             //var paketti2 = new Coffee("Kulta Katriina");
             //var paketti3 = new Coffee("Brazil");
@@ -50,8 +60,8 @@ namespace ListAndLoopsExample
             //    Console.WriteLine($"{i}. Merkki : {coffees[i].brand}");
             //}
 
-
-
+            
+            
             //Company -luokka. nimi, yhteyshenkilö(luokka person), maa
             //person -luokka. etunimi, sukunimi, puhelinnumero, email
             //DataHandler - luokka. list<cofee>, list<person>
