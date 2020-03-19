@@ -6,14 +6,14 @@ namespace ListAndLoopsExample
 {
     class Person
     {
-        public string name;
+        public string firstName;
         public string lastName;
         public string eMail;
-        public int phoneNumber;
+        public string phoneNumber;
 
-        public Person(string name, string lastName, string eMail, int phoneNumber)
+        public Person(string firstName, string lastName, string eMail, string phoneNumber)
         {
-            this.name = name;
+            this.firstName = firstName;
             this.lastName = lastName;
             this.eMail = eMail;
             this.phoneNumber = phoneNumber;
