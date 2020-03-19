@@ -7,7 +7,17 @@ namespace ListAndLoopsExample
     {
         static void Main(string[] args)
         {
+
             var dh = new DataHandler();
+            dh.AddCoffeeToList();
+            dh.PrintCoffeeList();
+            Console.ReadKey();
+
+            Console.Clear();
+            Coffee coffee = dh.SelectCoffeeFromList();
+            Console.WriteLine($"Valittu : {coffee.brand} {coffee.price} {coffee.roast} {coffee.importer}");
+
+            Console.Clear();
 
             dh.AddPersonToList();
             dh.PrintPersonList();

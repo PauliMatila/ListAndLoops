@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static ListAndLoopsExample.Coffee;
 
 namespace ListAndLoopsExample
 {
@@ -9,10 +10,47 @@ namespace ListAndLoopsExample
         
         public List<Coffee> coffees = new List<Coffee>();
         public List<Person> persons = new List<Person>();
-        public List<Company> companies = new List<Company>();   
+        public List<Company> companies = new List<Company>();
 
-        
-        
+       
+        public Coffee CreateCoffee()
+        {
+            Console.WriteLine("anna merkki:");
+            string brand = Console.ReadLine();
+            Console.WriteLine("anna hinta:");
+            double price = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine("anna paahto: (1-5)");
+            int paahto = int.Parse(Console.ReadLine());
+            Roast roast = (Roast)paahto;
+            Console.WriteLine("anna maahantuoja:");
+            string importer = Console.ReadLine();
+
+            Coffee coffee = new Coffee(brand, price, roast, importer);
+
+            return coffee;
+        }
+
+        public void AddCoffeeToList()
+        {
+            this.coffees.Add(CreateCoffee());
+        }
+
+        public void PrintCoffeeList()
+        {
+            for (int i = 0; i < this.coffees.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {coffees[i].brand} {coffees[i].price} {coffees[i].roast} {coffees[i].importer}");
+            }
+        }
+
+        public Coffee SelectCoffeeFromList()
+        {
+            PrintCoffeeList();
+            Console.WriteLine("Syötä valittavan kahvin numero:");
+            int selected = int.Parse(Console.ReadLine());
+            return this.coffees[selected - 1];
+        }
+
         public Person CreatePerson()
         {
             Console.WriteLine("anna etunimi:");

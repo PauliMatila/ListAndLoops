@@ -6,7 +6,7 @@ namespace ListAndLoopsExample
 {
     class Coffee
     {
-        public enum Roast {light=1, lightmedium, medium, darkmedium, dark}
+        public enum Roast {light=1, lightmedium=2, medium, darkmedium, dark}
 
         public string brand;
         public double price;
