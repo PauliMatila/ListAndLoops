@@ -12,44 +12,6 @@ namespace ListAndLoopsExample
         public List<Person> persons = new List<Person>();
         public List<Company> companies = new List<Company>();
 
-       
-        public Coffee CreateCoffee()
-        {
-            Console.WriteLine("anna merkki:");
-            string brand = Console.ReadLine();
-            Console.WriteLine("anna hinta:");
-            double price = Convert.ToDouble(Console.ReadLine());
-            Console.WriteLine("anna paahto: (1-5)");
-            int paahto = int.Parse(Console.ReadLine());
-            Roast roast = (Roast)paahto;
-            Console.WriteLine("anna maahantuoja:");
-            string importer = Console.ReadLine();
-
-            Coffee coffee = new Coffee(brand, price, roast, importer);
-
-            return coffee;
-        }
-
-        public void AddCoffeeToList()
-        {
-            this.coffees.Add(CreateCoffee());
-        }
-
-        public void PrintCoffeeList()
-        {
-            for (int i = 0; i < this.coffees.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {coffees[i].brand} {coffees[i].price} {coffees[i].roast} {coffees[i].importer}");
-            }
-        }
-
-        public Coffee SelectCoffeeFromList()
-        {
-            PrintCoffeeList();
-            Console.WriteLine("Syötä valittavan kahvin numero:");
-            int selected = int.Parse(Console.ReadLine());
-            return this.coffees[selected - 1];
-        }
 
         public Person CreatePerson()
         {
@@ -67,15 +29,22 @@ namespace ListAndLoopsExample
             return person;
         }
 
-        public void AddPersonToList()
+        public Person AddNewPersonToList()
         {
-            var person = CreatePerson();
+            Person person = CreatePerson();
             this.persons.Add(person);
             Console.WriteLine("Henkilö lisätty listaan");
+            return person;
         }
 
         public void PrintPersonList()
         {
+            if(this.persons.Count == 0)
+            {
+                Console.WriteLine("Henkilölista tyhjä.");
+                return;
+            }
+            
             for (int i = 0; i < this.persons.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. {this.persons[i].firstName} {this.persons[i].lastName}");
@@ -86,8 +55,8 @@ namespace ListAndLoopsExample
         {
             PrintPersonList();
             Console.WriteLine("Syötä valittavan henkilön numero:");
-            var selected = int.Parse(Console.ReadLine());
-            return this.persons[selected-1];
+            int selected = int.Parse(Console.ReadLine());
+            return this.persons[selected - 1];
         }
 
         public Company CreateCompany()
@@ -97,29 +66,64 @@ namespace ListAndLoopsExample
             Console.WriteLine("anna yrityksen maa");
             string country = Console.ReadLine();
 
-            Console.WriteLine("Valitse yhteyshenkilö listasta");
-            Person contactPerson = SelectPersonFromList();
-            
+            bool personIsSelected = false;
+
+            Person contactPerson = null;
+
+            while (!personIsSelected)
+            {
+                Console.Clear();
+
+                Console.WriteLine("1) Valitse yhteyshenkilö listasta.");
+                Console.WriteLine("2) Lisää uusi yhteyshenkilö.");
+                Console.WriteLine("3) ei yhteyshenkilöä.");
+                int selection = int.Parse(Console.ReadLine());
+
+                switch (selection)
+                {
+                    case 1:
+                        contactPerson = SelectPersonFromList();
+                        personIsSelected = true;
+                        break;
+                    case 2:
+                        contactPerson = AddNewPersonToList();
+                        personIsSelected = true;
+                        break;
+                    case 3:
+                        personIsSelected = true;
+                        break;
+                    default:
+                        personIsSelected = false;
+                        break;
+                }
+            }
+
             Company company = new Company(name, contactPerson, country);
 
             return company;
         }
 
-        public void AddCompanyToList()
+        public Company AddNewCompanyToList()
         {
-            var company = CreateCompany();
+            Company company = CreateCompany();
             this.companies.Add(company);
             Console.WriteLine("Yritys lisätty listaan.");
+            return company;
         }
 
         public void PrintCompanyList()
         {
+            if (this.companies.Count == 0)
+            {
+                Console.WriteLine("Yrityslista on tyhjä.");
+                return;
+            }
+
             int i = 1;
             foreach (Company company in this.companies)
             {
-
-                Console.WriteLine($"{i}.\tNimi: {company.name} \tMaa: {company.country}");
-                Console.WriteLine($"\tYhteyshenkilö: {company.contactPerson.firstName} {company.contactPerson.lastName} \tSähköposti: {company.contactPerson.eMail} \tPuhelinnumero: {company.contactPerson.phoneNumber}");
+                Console.WriteLine($"{i}.\tNimi:{company.name}");
+                Console.WriteLine($"{i}.\tYhteyshenkilö:{company.contactPerson.firstName} {company.contactPerson.lastName}");
                 i++;
             }
         }
@@ -128,9 +132,91 @@ namespace ListAndLoopsExample
         {
             PrintCompanyList();
             Console.WriteLine("syötä valittavan yrityksen numero:");
-            var selected = int.Parse(Console.ReadLine());
+            int selected = int.Parse(Console.ReadLine());
             return this.companies[selected - 1];
         }
-        //metodi luo persoonan
+
+        public Coffee CreateCoffee()
+        {
+            Console.WriteLine("anna kahvin merkki:");
+            string brand = Console.ReadLine();
+            Console.WriteLine("anna kahvin hinta:");
+            double price = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine("anna paahto (1-5):");
+            int paahto = int.Parse(Console.ReadLine());
+            Roast roast = (Roast)paahto;
+
+            Company importer = null;
+            bool importerSelected = false;
+            while (!importerSelected)
+            {
+                Console.Clear();
+
+                Console.WriteLine("mikä on maahantuoja?");
+                Console.WriteLine("1) Valitse yritys listasta.");
+                Console.WriteLine("2) Uusi yritys.");
+                int selected = int.Parse(Console.ReadLine());
+                switch (selected)
+                {
+                    case 1:
+                        Console.Clear();
+                        importer = SelectCompanyFromList();
+                        importerSelected = true;
+                        break;
+                    case 2:
+                        Console.Clear();
+                        importer = AddNewCompanyToList();
+                        importerSelected = true;
+                        break;
+                    case 3:
+                        Console.Clear();
+                        importer = null;
+                        importerSelected = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            Coffee newCoffee = new Coffee(brand, price, roast, importer);
+            return newCoffee;
+        }
+
+        public void AddNewCoffeeToList()
+        {
+            Coffee coffee = CreateCoffee();
+            this.coffees.Add(coffee);
+            Console.WriteLine("Kahvi lisättiin listaan.");
+        }
+
+        public void PrintCoffeeList()
+        {
+            if (this.coffees.Count == 0)
+            {
+                Console.WriteLine("Kahvi lista tyhjä.");
+                return;
+            }
+
+            int i = 1;
+            foreach (Coffee coffee in this.coffees)
+            {
+                Console.WriteLine($"{i}.\tMerkki:{coffee.brand}");
+                Console.WriteLine($"\tPaahto:{coffee.brand}");
+                Console.WriteLine($"\tMaahantuoja:{coffee.importer.name}");
+                i++;
+            }
+        }
+
+        public Coffee SelectCoffeeFromList()
+        {
+            PrintCoffeeList();
+            Console.WriteLine("Syötä valittavan yrityksen numero:");
+            int selected = int.Parse(Console.ReadLine());
+            return this.coffees[selected - 1];
+        }
+
+        
+
+        
     }
 }
